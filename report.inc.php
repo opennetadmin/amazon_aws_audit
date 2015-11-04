@@ -123,7 +123,7 @@ EOL;
 
 
 function rpt_get_data($form) {
-    global $base,$onadb;
+    global $onabase, $base,$onadb;
 
     // set the awsregion
     $awsregionlower=strtolower($form['awsregion']);
@@ -138,7 +138,7 @@ function rpt_get_data($form) {
     }
 
     // Pull in config file data
-    $awsconffile = (file_exists($onabase.'/etc/amazon_aws_detail.conf.php')) ? $onabase.'/etc/amazon_aws_detail.conf.php' : dirname(__FILE__).'/amazon_aws_detail.conf.php';
+    $awsconffile = (file_exists($onabase.'/etc/amazon_aws_detail.conf.php')) ? $onabase.'/etc/amazon_aws_detail.conf.php' : dirname(__FILE__).'/../amazon_aws_detail/amazon_aws_detail.conf.php';
     if (file_exists($awsconffile)) {
         require_once($awsconffile);
         if (!isset($awsRegionKeys[$awsregionlower])) {
@@ -206,10 +206,10 @@ foreach ( $instances['Reservations'] as $res ) {
     // gather interfaces
     // FIXME this ASSUMES device instance equates to the ethernet interface.. we'll see
     foreach ($resinst['NetworkInterfaces'] as $ints ) {
-        //echo "      {$ints['NetworkInterfaceId']} eth{$ints['Attachment']['DeviceIndex']} {$ints['PrivateIpAddress']} {$ints['macAddress']} {$ints['PrivateDnsName']}\n";
+        //echo "      {$ints['NetworkInterfaceId']} eth{$ints['Attachment']['DeviceIndex']} {$ints['PrivateIpAddress']} {$ints['MacAddress']} {$ints['PrivateDnsName']}\n";
         $awsdata[$resinst['InstanceId']]['deviceindex'] = $ints['Attachment']['DeviceIndex'];
         $awsdata[$resinst['InstanceId']]['ip'] = $ints['PrivateIpAddress'];
-        $awsdata[$resinst['InstanceId']]['mac'] = $ints['macAddress'];
+        $awsdata[$resinst['InstanceId']]['mac'] = $ints['MacAddress'];
 
     }
 
